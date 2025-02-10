@@ -1,0 +1,91 @@
+name: safe_path
+description: "A safety navigation app for Kenya."
+
+# Prevent accidental publishing to pub.dev
+publish_to: 'none'
+
+# Version and build number
+version: 1.0.0+1
+
+# SDK constraints
+environment:
+  sdk: ^3.6.2
+
+# Dependencies
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Cupertino Icons for iOS-style icons
+  cupertino_icons: ^1.0.8
+
+  # Google Maps integration
+  google_maps_flutter: ^2.2.0
+
+  # Geolocation services
+  geolocator: ^9.0.0
+
+  # HTTP requests for API calls
+  http: ^0.13.3
+
+  # State management
+  provider: ^6.0.0
+
+  # Local storage for user preferences
+  shared_preferences: ^2.0.6
+
+  # Local notifications for real-time alerts
+  flutter_local_notifications: ^9.5.3
+
+  # Camera for incident reporting
+  camera: ^0.10.0+1
+
+  # Permission handling for camera, location, etc.
+  permission_handler: ^10.0.0
+
+  # Firebase integration (for real-time alerts, cloud storage, etc.)
+  firebase_core: ^2.0.0
+  firebase_messaging: ^14.0.0
+  cloud_firestore: ^4.0.0
+
+  # Rating bar for safety ratings
+  flutter_rating_bar: ^4.0.1
+
+  # URL launcher for emergency calls
+  url_launcher: ^6.1.0
+
+  # Image picker for incident reporting
+  image_picker: ^0.8.7+4
+
+  # Offline storage for maps and data
+  flutter_offline: ^0.3.0
+
+# Dev dependencies
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting for good coding practices
+  flutter_lints: ^5.0.0
+
+# Flutter-specific configurations
+flutter:
+  uses-material-design: true
+
+  # Add assets (images, fonts, etc.)
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  # Add custom fonts (if needed)
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
