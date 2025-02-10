@@ -9,7 +9,7 @@ version: 1.0.0+1
 
 # SDK constraints
 environment:
-  sdk: ^3.6.2
+  sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies
 dependencies:
@@ -60,10 +60,8 @@ dependencies:
   # Offline storage for maps and data
   flutter_offline: ^0.3.0
 
-# Dev dependencies
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  # Firebase Auth
+  firebase_auth: ^4.0.0
 
   # Linting for good coding practices
   flutter_lints: ^5.0.0

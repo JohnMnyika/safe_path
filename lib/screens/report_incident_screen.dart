@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/incident_model.dart';
+import '../services/api_service.dart';
 
 class ReportIncidentScreen extends StatefulWidget {
   @override
@@ -9,27 +10,8 @@ class ReportIncidentScreen extends StatefulWidget {
 
 class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  File? _image;
-
-  Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
-
-  void _submitReport() {
-    if (_formKey.currentState!.validate()) {
-      // Submit the report
-      print('Description: ${_descriptionController.text}');
-      if (_image != null) {
-        print('Image path: ${_image!.path}');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +26,16 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
           child: Column(
             children: [
               TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'Title'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Description'),
                 validator: (value) {
@@ -54,15 +46,24 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                 },
               ),
               SizedBox(height: 20),
-              _image == null
-                  ? ElevatedButton(
-                      onPressed: _pickImage,
-                      child: Text('Take Photo'),
-                    )
-                  : Image.file(_image!),
-              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _submitReport,
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    Incident incident = Incident(
+                      id: '',
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                      latitude: 0.0, // Replace with actual location
+                      longitude: 0.0, // Replace with actual location
+                      timestamp: DateTime.now(),
+                    );
+                    await ApiService().reportIncident(incident);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Incident reported successfully')),
+                    );
+                    Navigator.pop(context);
+                  }
+                },
                 child: Text('Submit Report'),
               ),
             ],

@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
-import '../services/location_service.dart';
-import '../services/notification_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PanicButtonScreen extends StatelessWidget {
-  final LocationService locationService = LocationService();
-  final NotificationService notificationService = NotificationService();
-
-  void _sendEmergencyAlert() async {
-    final position = await locationService.getCurrentLocation();
-    await notificationService.showNotification(
-      'Emergency Alert',
-      'Help! I am at ${position.latitude}, ${position.longitude}',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +10,19 @@ class PanicButtonScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: _sendEmergencyAlert,
-          child: Text('Send Alert'),
+          onPressed: () async {
+            final url = 'tel:999'; // Replace with emergency number
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          },
+          child: Text('Trigger Panic Button'),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+          ),
         ),
       ),
     );

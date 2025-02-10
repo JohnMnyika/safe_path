@@ -8,19 +8,15 @@ class SettingsScreen extends StatelessWidget {
         title: Text('Settings'),
       ),
       body: ListView(
+        padding: EdgeInsets.all(16.0),
         children: [
-          SwitchListTile(
-            title: Text('Enable Notifications'),
-            value: true,
-            onChanged: (value) {
-              // Handle notification settings
-            },
+          ListTile(
+            title: Text('Notifications'),
+            trailing: Switch(value: true, onChanged: (value) {}),
           ),
           ListTile(
-            title: Text('Emergency Contacts'),
-            onTap: () {
-              // Navigate to emergency contacts screen
-            },
+            title: Text('Dark Mode'),
+            trailing: Switch(value: false, onChanged: (value) {}),
           ),
         ],
       ),

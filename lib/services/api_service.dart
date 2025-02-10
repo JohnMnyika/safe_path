@@ -1,18 +1,20 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/incident_model.dart';
 
 class ApiService {
-  final String baseUrl = "https://api.safepath.ke"; // Replace with your API URL
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<Incident>> fetchIncidents() async {
-    final response = await http.get(Uri.parse('$baseUrl/incidents'));
+  Stream<List<Incident>> getIncidents() {
+    return _firestore
+        .collection('incidents')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Incident.fromMap(doc.data(), doc.id))
+            .toList());
+  }
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((incident) => Incident.fromJson(incident)).toList();
-    } else {
-      throw Exception('Failed to load incidents');
-    }
+  Future<void> reportIncident(Incident incident) async {
+    await _firestore.collection('incidents').add(incident.toMap());
   }
 }

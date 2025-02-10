@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'screens/home_screen.dart';
-import 'screens/panic_button_screen.dart';
-import 'screens/report_incident_screen.dart';
-import 'screens/safety_tips_screen.dart';
-import 'screens/settings_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(SafePathApp());
 }
 
 class SafePathApp extends StatelessWidget {
+  const SafePathApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SafePath',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
       routes: {
-        '/panic': (context) => PanicButtonScreen(),
-        '/report': (context) => ReportIncidentScreen(),
-        '/tips': (context) => SafetyTipsScreen(),
-        '/settings': (context) => SettingsScreen(),
-      },
+  '/': (context) => LoginScreen(),
+  '/signup': (context) => SignupScreen(),
+  '/home': (context) => HomeScreen(),
+},
     );
   }
 }
